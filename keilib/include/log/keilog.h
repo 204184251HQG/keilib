@@ -51,6 +51,20 @@
 #define B_CYAN "\e[46m"
 #define B_GRAY "\e[47m"
 
+#define SPECIFIER "~~"
+typedef enum KLogPriority
+{
+    KLOG_UNKNOWN = 0,
+    KLOG_DEFAULT, /* only for SetMinPriority() */
+    KLOG_VERBOSE,
+    KLOG_DEBUG,
+    KLOG_INFO,
+    KLOG_WARN,
+    KLOG_ERROR,
+    KLOG_FATAL,
+    KLOG_SILENT, /* only for SetMinPriority(); must be last */
+} KLogPriority;
+
 #define PRINT_DBG 0
 #define KLOG_I(str, ...)                          \
     do                                            \
@@ -74,6 +88,15 @@
         }                                                                                  \
     } while (0)
 
+#define KCHECK_RETURN(exp, retval) \
+    do                             \
+    {                              \
+        if (!(exp))                \
+        {                          \
+            return retval;         \
+        }                          \
+    } while (0)
+
 #define kmin(x, y)                 \
     ({                            \
         const typeof(x) _x = (x); \
@@ -89,6 +112,12 @@
         (void)(&_x == &_y);       \
         _x > _y ? _x : _y;        \
     })
+
+int keilog_init(KLogPriority l, const char* p_logdir, const char *log_file_name, int flag);
+
+int keilog(KLogPriority l, const char *fmt, ...);
+
+int keilog_close();
 
 int32_t get_win_width();
 

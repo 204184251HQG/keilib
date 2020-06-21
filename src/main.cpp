@@ -27,7 +27,17 @@ int main(int argc, char** argv)
 {
 	///-----includes_end-----
 
-	int i;
+	int i = 0;
+
+			#ifdef HAVE_KEILIB
+ int ret = keilog_init(KLOG_DEFAULT, "/home/keino/repo/keiworld/build", "newlogtest", 0);
+
+	while(i < 100)
+	{
+ 		keilog(KLOG_INFO, "i = %d", i++);
+	}
+	return 0;
+#endif
 	///-----initialization_start-----
 
 	///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
